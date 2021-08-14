@@ -18,15 +18,13 @@ import { Component, Input } from '@angular/core';
   <br>
   <br>
   <div class="container mt3">
-    <app-animated-button (click)="active = !active" [selected]='active'>
-      First
+    <app-animated-button
+      *ngFor="let section of sections"
+      (click)="active = section"
+      [selected]="section.id === active.id">
+        {{section.label}}
     </app-animated-button>
-    <app-animated-button>
-      Second
-    </app-animated-button>
-    <app-animated-button>
-      Third
-    </app-animated-button>
+    <app-animated-text [text]="active.text"></app-animated-text>
   </div>
   `,
   styles: [`
@@ -37,7 +35,13 @@ export class AppComponent {
 
   title = 'test';
 
-  active = true;
+  sections = [
+    {id: 1, label: 'FIRST', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed quam id ipsum eleifend interdum nec eu sapien.'},
+    {id: 2, label: 'SECOND', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
+    {id: 3, label: 'THIRD', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed quam id ipsum eleifend interdum nec eu sapien. Cras tincidunt ligula et arcu consectetur tincidunt.'}
+  ]
+
+  active = this.sections[0];
 
   doSomething() {
     console.log("helo");

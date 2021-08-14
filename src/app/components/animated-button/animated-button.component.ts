@@ -6,22 +6,23 @@ import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from
   animations: [
     trigger('buttonAnimated', [
       state('over', style({
-        backgroundColor: 'red'
+        transform: 'scale(1.2) rotate(0deg)'
       })),
       state('out', style({
-        backgroundColor: 'white'
+        transform: 'scale(1)'
       })),
       state('selected', style({
         backgroundColor: 'orange'
       })),
       transition('out <=> over', [
-        animate('0.5s')
+        animate('0.3s')
       ])
     ])
   ],
   template: `
   <button
     class="button"
+    [disabled]="selected"
     [@buttonAnimated]="state"
     (mouseover)="state = 'over'"
     (mouseout)="state = 'out'"
@@ -39,7 +40,10 @@ export class AnimatedButtonComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    console.log(changes.selected);
+    if(changes.selected) {
+      this.state = changes.selected.currentValue ? 'selected' : 'out';
+    }
   }
 
 }
